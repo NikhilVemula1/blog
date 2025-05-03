@@ -1,13 +1,13 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 const posts = [
-  { title: "Getting Started with Astro", slug: "getting-started", excerpt: "Learn the basics of Astro for building fast blogs.", date: "2025-05-01" },
+  { title: "Getting Started with Astro", slug: "getting-started", excerpt: "Leaaarn the basics of Astro for building fast blogs.", date: "2025-05-01" },
   { title: "Tailwind CSS Tips", slug: "tailwind-tips", excerpt: "Master Tailwind CSS with these pro tips.", date: "2025-04-28" },
 ];
 ---
 
 <MainLayout title="Home">
-  <h1 class="text-3xl mb-8">Latest Posts</h1>
+  <h1 class="text-3xl mb-8">Latestt Posts</h1>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     {posts.map((post) => (
       <a href={`/posts/${post.slug}`} class="block p-6 bg-white rounded-lg shadow hover:shadow-lg transition">
