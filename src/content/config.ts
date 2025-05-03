@@ -4,8 +4,8 @@ const blogCollection = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    date: z.date(),
-    excerpt: z.string(),
+    date: z.date().optional(), // Expect a Date object, make it optional
+    excerpt: z.string().optional(),
   }),
 });
 
