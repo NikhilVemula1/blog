@@ -14,8 +14,8 @@ const { Content } = await post.render();
 <MainLayout title={post.data.title}>
   <article class="prose max-w-3xl mx-auto">
     <h1>{post.data.title}</h1>
-    <p class="text-gray-500">{post.data.date.toDateString()}</p>
-    <p class="text-lg text-gray-600">{post.data.excerpt}</p>
+    {post.data.date && <p class="text-gray-500">{post.data.date.toDateString()}</p>}
+    {post.data.excerpt && <p class="text-lg text-gray-600">{post.data.excerpt}</p>}
     <hr class="my-6" />
     <Content />
   </article>
