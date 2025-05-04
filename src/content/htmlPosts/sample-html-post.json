@@ -1,0 +1,24 @@
+[
+  {
+    "title": "Sample HTML Post",
+    "excerpt": "This is a sample blog post written in HTML.",
+    "category": "data-analytics"
+  },
+
+  {
+    "title": "Sample HTML Post",
+    "excerpt": "This is a gen ai sample blog post written in HTML.",
+    "category": "gen-ai.astro"
+  },
+  {
+    "title": "Sample HTML Post",
+    "excerpt": "This is a sql sql  ai sample blog post written in HTML.",
+    "category": "sql.astro"
+  },
+  {
+    "title": "Sample HTML Post",
+    "excerpt": "This is a python python python  ai sample blog post written in HTML.",
+    "category": "python.astro"
+  }
+
+]

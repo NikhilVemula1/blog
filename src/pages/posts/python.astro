@@ -1,11 +1,11 @@
 ---
-import MainLayout from '../layouts/MainLayout.astro';
+import MainLayout from '../../layouts/MainLayout.astro';
 import { getCollection } from 'astro:content';
 
 // Fetch Markdown posts
-const markdownPosts = await getCollection('blog');
+const markdownPosts = await getCollection('blog', (post) => post.data.category === 'python');
 // Fetch HTML posts metadata
-const htmlPosts = await getCollection('htmlPosts');
+const htmlPosts = await getCollection('htmlPosts', (post) => post.data.category === 'python');
 // Combine and sort posts by date (newest first)
 const allPosts = [
   ...markdownPosts.map(post => ({
@@ -16,23 +16,23 @@ const allPosts = [
     type: 'markdown'
   })),
   ...htmlPosts.map(post => ({
-    slug: post.id, // Use post.id as the slug
+    slug: post.id,
     title: post.data.title,
-    // excerpt: post.data.excerpt,
-    // date: post.data.date,
+    excerpt: post.data.excerpt,
+    date: post.data.date,
     type: 'html'
   }))
 ].sort((a, b) => (b.date?.getTime() || 0) - (a.date?.getTime() || 0));
 ---
 
-<MainLayout title="All Posts">
-  <h1 class="text-3xl mb-8">All Posts</h1>
+<MainLayout title="Python">
+  <h1 class="text-3xl mb-8">Python Posts</h1>
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     {allPosts.map((post) => (
       <a href={`/posts/${post.slug}`} class="block p-6 bg-white rounded-lg shadow hover:shadow-lg transition">
         <h2 class="text-xl font-semibold mb-2">{post.title}</h2>
-        {/* <p class="text-gray-600 mb-4">{post.excerpt || 'No excerpt available'}</p>
-        {post.date && <p class="text-sm text-gray-500">{post.date.toDateString()}</p>} */}
+        <p class="text-gray-600 mb-4">{post.excerpt || 'No excerpt available'}</p>
+        {post.date && <p class="text-sm text-gray-500">{post.date.toDateString()}</p>}
       </a>
     ))}
   </div>

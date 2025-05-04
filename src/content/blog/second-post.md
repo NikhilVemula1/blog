@@ -2,10 +2,10 @@
 title: Exploring Tailwind CSS
 date: 2025-05-03
 excerpt: Dive deeper into Tailwind CSS with advanced techniques.
+category: gen-ai
 ---
 # Exploring Tailwind CSS
-Tailwind CSS is a utility-first framework that makes styling your blog a breeze. In this post, we’ll explore advanced techniques like creating custom components and optimizing for production.
-<br>
+Tailwind CSS is a utility-first framework that makes styling your blog a breeze, especially for Gen AI projects.
 # Astro Starter Kit: Basics
 <br>
 

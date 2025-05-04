@@ -7,19 +7,52 @@ const { title } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} | Kaggle-Inspired Blog</title>
+    <!-- Preload Tailwind CSS CDN to reduce loading delay -->
+    <link rel="preload" href="https://cdn.tailwindcss.com" as="script" />
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com" defer></script>
   </head>
   <body class="bg-gray-100 font-sans text-gray-800">
     <div class="flex min-h-screen">
       <!-- Left Sidebar -->
-      <aside class="fixed w-64 bg-white shadow-md h-screen p-6 transform -translate-x-full md:translate-x-0 transition-transform duration-300" id="sidebar">
+      <aside class="fixed w-64 bg-gray-900 text-gray-300 h-screen p-6 transform -translate-x-full md:translate-x-0 transition-transform duration-300" id="sidebar">
         <h1 class="text-2xl font-bold text-[#20BEFF] mb-8">Blog</h1>
         <nav>
-          <ul class="space-y-4">
-            <li><a href="/" class="text-gray-600 hover:text-[#20BEFF]">Home</a></li>
-            <li><a href="/posts" class="text-gray-600 hover:text-[#20BEFF]">Posts</a></li>
-            <li><a href="/about" class="text-gray-600 hover:text-[#20BEFF]">About</a></li>
+          <ul class="space-y-2">
+            <li>
+              <a href="/" class="block py-2 px-4 rounded hover:bg-gray-700 hover:text-white">Home</a>
+            </li>
+            <li>
+              <a href="/projects" class="block py-2 px-4 rounded hover:bg-gray-700 hover:text-white">Personal Projects</a>
+            </li>
+            <li>
+              <button class="flex justify-between items-center w-full py-2 px-4 rounded hover:bg-gray-700 hover:text-white text-left" onclick="document.getElementById('data-analytics-dropdown').classList.toggle('hidden')">
+                <span>Data Analytics</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+              <ul id="data-analytics-dropdown" class="hidden pl-4 space-y-1 mt-1">
+                <li><a href="/posts/data-analytics" class="block py-1 px-4 rounded hover:bg-gray-700 hover:text-white">Data Analytics</a></li>
+                <li><a href="/posts/sql" class="block py-1 px-4 rounded hover:bg-gray-700 hover:text-white">SQL</a></li>
+                <li><a href="/posts/python" class="block py-1 px-4 rounded hover:bg-gray-700 hover:text-white">Python</a></li>
+                <li><a href="/posts/gen-ai" class="block py-1 px-4 rounded hover:bg-gray-700 hover:text-white">Gen AI</a></li>
+              </ul>
+            </li>
+            <li>
+              <button class="flex justify-between items-center w-full py-2 px-4 rounded hover:bg-gray-700 hover:text-white text-left" onclick="document.getElementById('sql-dropdown').classList.toggle('hidden')">
+                <span>SQL</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+              <ul id="sql-dropdown" class="hidden pl-4 space-y-1 mt-1">
+                <li><a href="/posts/data-analytics" class="block py-1 px-4 rounded hover:bg-gray-700 hover:text-white">Data Analytics</a></li>
+                <li><a href="/posts/sql" class="block py-1 px-4 rounded hover:bg-gray-700 hover:text-white">SQL</a></li>
+                <li><a href="/posts/python" class="block py-1 px-4 rounded hover:bg-gray-700 hover:text-white">Python</a></li>
+                <li><a href="/posts/gen-ai" class="block py-1 px-4 rounded hover:bg-gray-700 hover:text-white">Gen AI</a></li>
+              </ul>
+            </li>
           </ul>
         </nav>
       </aside>

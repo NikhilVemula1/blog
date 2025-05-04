@@ -1,19 +1,39 @@
 ---
-   import MainLayout from '../../layouts/MainLayout.astro';
-   import { getCollection } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import { getCollection } from 'astro:content';
 
-   const posts = await getCollection('blog');
-   ---
+// Fetch Markdown posts
+const markdownPosts = await getCollection('blog');
+// Fetch HTML posts metadata
+const htmlPosts = await getCollection('htmlPosts');
+// Combine and sort posts by date (newest first)
+const allPosts = [
+  ...markdownPosts.map(post => ({
+    slug: post.slug,
+    title: post.data.title,
+    excerpt: post.data.excerpt,
+    date: post.data.date,
+    type: 'markdown'
+  })),
+  ...htmlPosts.map(post => ({
+    slug: post.data.slug,
+    title: post.data.title,
+    excerpt: post.data.excerpt,
+    date: post.data.date,
+    type: 'html'
+  }))
+].sort((a, b) => (b.date?.getTime() || 0) - (a.date?.getTime() || 0));
+---
 
-   <MainLayout title="Home">
-     <h1 class="text-3xl mb-8">Latest Posts</h1>
-     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-       {posts.map((post) => (
-         <a href={`/posts/${post.slug}`} class="block p-6 bg-white rounded-lg shadow hover:shadow-lg transition">
-           <h2 class="text-xl font-semibold mb-2">{post.data.title}</h2>
-           <p class="text-gray-600 mb-4">{post.data.excerpt || 'No excerpt available'}</p>
-           {post.data.date && <p class="text-sm text-gray-500">{post.data.date.toDateString()}</p>}
-         </a>
-       ))}
-     </div>
-   </MainLayout>
+<MainLayout title="All Posts">
+  <h1 class="text-3xl mb-8">All Posts</h1>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {allPosts.map((post) => (
+      <a href={`/posts/${post.slug}`} class="block p-6 bg-white rounded-lg shadow hover:shadow-lg transition">
+        <h2 class="text-xl font-semibold mb-2">{post.title}</h2>
+        <p class="text-gray-600 mb-4">{post.excerpt || 'No excerpt available'}</p>
+        {post.date && <p class="text-sm text-gray-500">{post.date.toDateString()}</p>}
+      </a>
+    ))}
+  </div>
+</MainLayout>

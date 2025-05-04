@@ -2,30 +2,54 @@
 import MainLayout from '../../layouts/MainLayout.astro';
 import { getCollection, getEntry } from 'astro:content';
 
-// Generate static paths for all blog posts
+// Dynamically import all HTML files from src/content/htmlPosts/
+const htmlFiles = import.meta.glob('/src/content/htmlPosts/*.html', { as: 'raw' });
+
+// Generate static paths for all posts (Markdown and HTML)
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-  }));
+  const markdownPosts = await getCollection('blog');
+  const htmlPosts = await getCollection('htmlPosts');
+  const allPosts = [
+    ...markdownPosts.map(post => ({ params: { slug: post.slug }, props: { type: 'markdown' } })),
+    ...htmlPosts.map(post => ({ params: { slug: post.id }, props: { type: 'html' } }))
+  ];
+  return allPosts;
 }
 
 const { slug } = Astro.params;
-const post = await getEntry('blog', slug);
+const { type } = Astro.props;
 
-if (!post) {
-  return Astro.redirect('/404');
+// Handle Markdown post
+let postData, markdownContent, htmlContent;
+if (type === 'markdown') {
+  const post = await getEntry('blog', slug);
+  if (!post) {
+    return Astro.redirect('/404');
+  }
+  postData = post.data;
+  markdownContent = await post.render();
+} else {
+  // Handle HTML post
+  const htmlPost = await getEntry('htmlPosts', slug);
+  if (!htmlPost) {
+    return Astro.redirect('/404');
+  }
+  postData = htmlPost.data;
+  // Load HTML content
+  const htmlFile = htmlFiles[`/src/content/htmlPosts/${slug}.html`];
+  if (!htmlFile) {
+    return Astro.redirect('/404');
+  }
+  htmlContent = await htmlFile();
 }
-
-const { Content } = await post.render();
 ---
 
-<MainLayout title={post.data.title}>
+<MainLayout title={postData.title}>
   <article class="prose max-w-3xl mx-auto">
-    <h1>{post.data.title}</h1>
-    {post.data.date && <p class="text-gray-500">{post.data.date.toDateString()}</p>}
-    {post.data.excerpt && <p class="text-lg text-gray-600">{post.data.excerpt}</p>}
+    <h1>{postData.title}</h1>
+    <!-- {postData.date && <p class="text-gray-500">{postData.date.toDateString()}</p>}
+    {postData.excerpt && <p class="text-lg text-gray-600">{postData.excerpt}</p>} -->
     <hr class="my-6" />
-    <Content />
+    {type === 'markdown' ? <markdownContent.Content /> : <div set:html={htmlContent} />}
   </article>
 </MainLayout>
